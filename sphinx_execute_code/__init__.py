@@ -23,7 +23,7 @@ Usage:
    See Readme.rst for documentation details
 """
 import sys
-import StringIO
+from io import StringIO
 import os
 from docutils.parsers.rst import Directive, directives
 from docutils import nodes
@@ -70,15 +70,15 @@ class ExecuteCode(Directive):
             'foobar'
         """
 
-        output = StringIO.StringIO()
-        err = StringIO.StringIO()
+        output = StringIO()
+        err = StringIO()
 
         sys.stdout = output
         sys.stderr = err
 
         try:
             # pylint: disable=exec-used
-            exec code
+            exec(code)
         # If the code is invalid, just skip the block - any actual code errors
         # will be raised properly
         except TypeError:
