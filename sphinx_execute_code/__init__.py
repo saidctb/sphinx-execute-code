@@ -2,24 +2,18 @@
 """
 sphinx-execute-code module for execute_code directive
 To use this module, add: extensions.append('sphinx_execute_code')
-
 Available options:
-
         'linenos': directives.flag,
         'output_language': directives.unchanged,
         'hide_code': directives.flag,
         'hide_headers': directives.flag,
         'filename': directives.path,
         'hide_filename': directives.flag,
-
 Usage:
-
 .. example_code:
    :linenos:
    :hide_code:
-
    print 'Execute this python code'
-
    See Readme.rst for documentation details
 """
 import sys
@@ -55,16 +49,12 @@ class ExecuteCode(Directive):
     @classmethod
     def execute_code(cls, code):
         """ Executes supplied code as pure python and returns a list of stdout, stderr
-
         Args:
             code (string): Python code to execute
-
         Results:
             (list): stdout, stderr of executed python code
-
         Raises:
             ExecutionError when supplied python is incorrect
-
         Examples:
             >>> execute_code('print "foobar"')
             'foobar'
@@ -76,13 +66,12 @@ class ExecuteCode(Directive):
         sys.stdout = output
         sys.stderr = err
 
-        try:
-            # pylint: disable=exec-used
-            exec(code)
+
+        # pylint: disable=exec-used
+        exec(code)
         # If the code is invalid, just skip the block - any actual code errors
         # will be raised properly
-        except TypeError:
-            pass
+
         sys.stdout = sys.__stdout__
         sys.stderr = sys.__stderr__
 
@@ -95,7 +84,6 @@ class ExecuteCode(Directive):
 
     def run(self):
         """ Executes python code for an RST document, taking input from content or from a filename
-
         :return:
         """
         language = self.options.get('language') or 'python'
